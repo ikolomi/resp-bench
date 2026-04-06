@@ -1,0 +1,25 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "resp-bench"
+version = "1.0.0"
+description = "Python implementation of resp-bench benchmark suite"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+dependencies = [
+    "redis>=5.0",
+    "valkey-glide>=1.0",
+    "hdrhistogram>=0.10",
+]
+
+[project.optional-dependencies]
+async = ["redis>=5.0", "valkey-glide>=1.0"]
+dev = ["pytest>=7.0"]
+
+[project.scripts]
+resp-bench = "resp_bench.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]

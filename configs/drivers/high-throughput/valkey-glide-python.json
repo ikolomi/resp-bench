@@ -1,0 +1,8 @@
+{
+    "schema_version": "1.0",
+    "description": "valkey-glide Python client - high-throughput configuration",
+    "driver_id": "valkey-glide-python",
+    "mode": "standalone",
+    "specific_driver_config": {},
+    "command_timeout_ms": 10000
+}

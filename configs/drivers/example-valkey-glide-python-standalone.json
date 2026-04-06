@@ -1,0 +1,7 @@
+{
+    "schema_version": "1.0",
+    "description": "valkey-glide Python client - standalone mode",
+    "driver_id": "valkey-glide-python",
+    "mode": "standalone",
+    "specific_driver_config": {}
+}

@@ -1,0 +1,7 @@
+{
+    "schema_version": "1.0",
+    "description": "valkey-py client - standalone mode",
+    "driver_id": "valkey-py",
+    "mode": "standalone",
+    "specific_driver_config": {}
+}
