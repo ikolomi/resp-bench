@@ -31,7 +31,7 @@ WORK_DIR=$(shell pwd)/work
 	server-sentinel-start server-sentinel-stop \
 	server-start server-stop \
 	java-build java-test java-run java-clean \
-	python-build python-test python-run python-clean \
+	python-build python-test python-run python-run-async python-run-sync python-clean python-info \
 	ruby-build ruby-test ruby-run ruby-clean ruby-info \
 	csharp-build csharp-test csharp-run csharp-clean csharp-info \
 	config-editor-build config-editor-dev
@@ -56,10 +56,11 @@ help:
 	@echo "  make java-run               Run Java benchmark (requires DRIVER and WORKLOAD)"
 	@echo "  make java-clean             Clean Java build artifacts"
 	@echo ""
-	@echo "Python Engine (placeholder):"
-	@echo "  make python-build           Build Python benchmark engine"
+	@echo "Python Engine:"
+	@echo "  make python-build           Install Python benchmark engine"
 	@echo "  make python-test            Run Python tests"
-	@echo "  make python-run             Run Python benchmark"
+	@echo "  make python-run             Run Python benchmark (requires DRIVER and WORKLOAD)"
+	@echo "  make python-info            Show supported Python drivers and commands"
 	@echo ""
 	@echo "Ruby Engine:"
 	@echo "  make ruby-build             Install Ruby dependencies"
@@ -305,24 +306,43 @@ java-info: java-build
 	java -jar $(JAVA_JAR) --info
 
 # ============================================================================
-# Python Engine (Placeholder)
+# Python Engine
 # ============================================================================
 
 python-build:
-	@echo "Python engine not yet implemented"
-	@echo "Placeholder for: cd python && pip install -e ."
+	cd python && pip install -e .
 
 python-test:
-	@echo "Python engine not yet implemented"
-	@echo "Placeholder for: cd python && pytest"
+	cd python && python -m pytest
 
-python-run:
-	@echo "Python engine not yet implemented"
-	@echo "Placeholder for: python -m resp_bench --server $(SERVER) --driver $(DRIVER) --workload $(WORKLOAD)"
+python-run: python-build
+	cd python && python -m resp_bench \
+		--server $(SERVER) \
+		--driver ../$(DRIVER) \
+		--workload ../$(WORKLOAD) \
+		--metrics ../$(METRICS_OUTPUT)
+
+python-run-async: python-build
+	cd python && python -m resp_bench \
+		--server $(SERVER) \
+		--driver ../$(DRIVER) \
+		--workload ../$(WORKLOAD) \
+		--metrics ../$(METRICS_OUTPUT) \
+		--mode async
+
+python-run-sync: python-build
+	cd python && python -m resp_bench \
+		--server $(SERVER) \
+		--driver ../$(DRIVER) \
+		--workload ../$(WORKLOAD) \
+		--metrics ../$(METRICS_OUTPUT) \
+		--mode sync
 
 python-clean:
-	@echo "Python engine not yet implemented"
-	@echo "Placeholder for: cd python && rm -rf __pycache__ *.egg-info dist build"
+	cd python && rm -rf __pycache__ *.egg-info dist build src/*.egg-info
+
+python-info: python-build
+	cd python && python -m resp_bench --info
 
 # ============================================================================
 # Ruby Engine

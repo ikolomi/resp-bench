@@ -1,0 +1,7 @@
+{
+    "schema_version": "1.0",
+    "description": "redis-py client - standalone mode",
+    "driver_id": "redis-py",
+    "mode": "standalone",
+    "specific_driver_config": {}
+}
